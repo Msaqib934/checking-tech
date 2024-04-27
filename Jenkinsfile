@@ -66,5 +66,24 @@ pipeline {
                 }
             }
        }
+	stage('Update Deployment File') {
+        environment {
+            GIT_REPO_NAME = "argocd"
+            GIT_USER_NAME = "Msaqib934"
+        }
+        steps {
+            withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+                sh '''
+                    git config user.email "msaqib934@gmail.com"
+                    git config user.name "Msaqib934"
+                    IMAGE_TAG=${IMAGE_TAG}
+                    sed -i "s/replaceImageTag/${IMAGE_TAG}/g" dev/deployment.yaml
+                    git add dev/deployment.yaml
+                    git commit -m "Update deployment image to version ${IMAGE_TAG}"
+                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                '''
+            }
+        }
+    }
   }
 }
