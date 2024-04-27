@@ -66,6 +66,11 @@ pipeline {
                 }
             }
        }
+	stage("Checkout from SCM for argocd") {
+               steps {
+                   git branch: 'main', credentialsId: 'github', url: 'https://github.com/Msaqib934/argocd'
+               }
+        }
 	stage('Update Deployment File') {
         environment {
             GIT_REPO_NAME = "argocd"
