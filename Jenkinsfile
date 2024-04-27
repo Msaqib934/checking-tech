@@ -76,6 +76,7 @@ pipeline {
                 sh """
                     git config user.email "msaqib934@gmail.com"
                     git config user.name "Msaqib934"
+		    cat deployment.yaml
                     IMAGE_TAG=${IMAGE_TAG}
                     sed -i 's/replaceImageTag/${IMAGE_TAG}/g' deployment.yaml
                     git add dev/deployment.yaml
